@@ -10,12 +10,21 @@ nav{
     background-color: black;
 }
 
+.parametersRow{
+    margin:auto;
+}
+
+
 .container-fluid {
     box-sizing: border-box;
 }
 
+.modal-content{
+    color: #e9ecef;
+    background-color: black;
+}
+
 #mainRow{
-    background-color: blue;
     margin: 0;
     height: 100%;
     padding: 30px
@@ -26,6 +35,87 @@ svg {
     margin: 0 auto;
 }
 
+.white{
+    color: #fff;
+}
+
 .hidden {
     display: none !important;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.roundButton {
+    width: 50px;
+    height:50px;
+    bottom: 30px;
+    left: 30px;
+    z-index: 100;
+    border-radius: 50%;
+    background-size: 40px 40px;
+    background-position: center;
+    margin: 0px;
+}
+.openButton {
+    background-image: url("images/openGreen.png");
+}
+.openButton:hover{
+    background-image: url("images/openWhite.png");
+}
+
+.playButton {
+    background-image: url("images/playGreen.png");
+}
+.playButton:hover{
+    background-image: url("images/playWhite.png");
+}
+
+.prevButton {
+    background-image: url("images/prevGreen.png");
+}
+.prevButton:hover{
+    background-image: url("images/prevWhite.png");
+}
+
+.nextButton {
+    background-image: url("images/nextGreen.png");
+}
+.nextButton:hover{
+    background-image: url("images/nextWhite.png");
+}
+
+.addButton {
+    background-image: url("images/addGreen.png");
+}
+.addButton:hover{
+    background-image: url("images/addWhite.png");
+}
+
+.removeButton {
+    background-image: url("images/removeGreen.png");
+}
+.removeButton:hover{
+    background-image: url("images/removeWhite.png");
+}
+
+.infoButton {
+    background-image: url("images/infoGreen.png");
+}
+.infoButton:hover{
+    background-image: url("images/infoWhite.png");
+}
+
+.saveButton {
+    background-image: url("images/saveGreen.png");
+}
+.saveButton:hover{
+    background-image: url("images/saveWhite.png");
+}
+
+.selectedPlayer, .selectedPlayer:disabled{
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
 }

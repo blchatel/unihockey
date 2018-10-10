@@ -21,20 +21,73 @@
 </head>
 
 <body>
-
     <!-- Navigation Bar-->
     <nav class="navbar navbar-light navbar-fixed-top bg-faded ">
-        <div>
-          <h2 class="white">
-              Unihockey
-              <!--TODO better title ? Ranking ?-->
-          </h2>
-      </div>
+        <div class="parametersRow">
+            <div>
+                <h4 id="levelName" class="white">Level: default</h4>
+            </div>
+            <label id="openButton" for="file-open" class="btn btn-outline-success roundButton openButton"></label>
+            <input id="file-open" class="roundButton" type="file"/>
+            <button id="playButton" type="button" class="btn btn-outline-success roundButton playButton" title="Play Level"></button>
+            <button id="prevButton" type="button" class="btn btn-outline-success roundButton prevButton" title="Prev Frame"></button>
+            <button id="currentButton" type="button" class="btn btn-outline-success roundButton currentButton" title="Current Frame"></button>
+            <button id="nextButton" type="button" class="btn btn-outline-success roundButton nextButton" title="Next Frame"></button>
+            <button id="addButton" type="button" class="btn btn-outline-success roundButton addButton" title="Add Frame"></button>
+            <button id="removeButton" type="button" class="btn btn-outline-success roundButton removeButton" title="Remove Frame"></button>
+            <button id="saveButton" type="button" class="btn btn-outline-success roundButton saveButton" title="Save File"></button>
+            <button id="infoButton" type="button" class="btn btn-outline-success roundButton infoButton" data-toggle="modal" data-target="#infoModal" title="Info"></button>
+        </div>
+        <div class="parametersRow">
+            <div>
+                <h4 class="white">Controlled Player</h4>
+            </div>
+            <button type="button" class="btn btn-outline-success playerSelector roundButton selectedPlayer" value="-1">No</button>
+            <button type="button" class="btn btn-outline-success playerSelector roundButton" value="2">4</button>
+            <button type="button" class="btn btn-outline-success playerSelector roundButton" value="3">5</button>
+            <button type="button" class="btn btn-outline-success playerSelector roundButton" value="4">6</button>
+            <button type="button" class="btn btn-outline-success playerSelector roundButton" value="5">7</button>
+            <button type="button" class="btn btn-outline-success playerSelector roundButton" value="6">8</button>
+            <button type="button" class="btn btn-outline-success playerSelector roundButton" value="7">9</button>
+        </div>
     </nav>
 
     <!----------------------------------------------->
 
     <div class="container-fluid">
+
+        <!-- Modal -->
+        <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">Informations</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h6>Shortcuts</h6>
+                        <p><b>p</b>  -  (play)</p>
+                        <p><b>+</b>  -  (next frame)</p>
+                        <p><b>-</b>  -  (prev frame)</p>
+                        <p><b>a</b>  -  (add new frame here)</p>
+                        <p><b>r</b>  -  (remove current frame)</p>
+                        <p><b>4</b>  -  (move player 4)</p>
+                        <p><b>5</b>  -  (move player 5)</p>
+                        <p><b>6</b>  -  (move player 6)</p>
+                        <p><b>7</b>  -  (move player 7)</p>
+                        <p><b>8</b>  -  (move player 8)</p>
+                        <p><b>9</b>  -  (move player 9)</p>
+                        <p><b>s</b>  -  (save the selected player's position in current frame)</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Main D3 Panels-->
         <div id="mainRow" class="row">
@@ -50,6 +103,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/FileSaver.js"></script>
 
     <!-- Import D3-->
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -57,7 +111,7 @@
     <!-- Import our js files-->
     <script src="js/states.js"></script>
     <script src="js/unihockey.js"></script>
-    <script>init(level1)</script>
+    <script>init(defaultLevel)</script>
 </body>
 
 </html>

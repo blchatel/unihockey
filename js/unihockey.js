@@ -27,10 +27,23 @@ const states = {
 //
 function init(level) {
 
+    // first clean actual content
+    d3.select("#mainRow").html("");
+
+    // TODO remove all event before init ...
+
+    // init the states global variable
+    states.isPlaying = false;
+    states.currentFrameId = 0;
+    states.controlledPlayer = {id:-1, x: 0, y: 0, r: 0.5, team: "red", number: "0"};
+
     // Get the frames
     const frames = level.frames;
+    updateCurrentFrameLabel(0, frames.length);
+    $('#levelName').text("Level: "+level.name)
 
     const fieldSVG = d3.select("#mainRow").append("svg")
+        .attr("id", level.name)
         .attr("height", SVG_HEIGHT)
         .attr("width", SVG_WIDTH)
         .on("mousemove", function() {
@@ -74,40 +87,105 @@ function init(level) {
     $(document).keypress(function(event){
         const charCode = event.which;
         if(charCode >= 52 && charCode <= 57 && !states.isPlaying){ // 4, 5, 6, 7, 8, 9
-            states.controlledPlayer = $.extend(true, {}, frames[states.currentFrameId][charCode - 50]);
-            updatePlayers(fieldSVG, frames[states.currentFrameId])
-            updatePlayers(fieldSVG, [states.controlledPlayer], filterClass="controlled", transitionDuration=0)
+            selectPlayer(fieldSVG, frames, charCode - 50)
         }
-        else if (charCode == 45 && !states.isPlaying) { // -
+        else if (charCode == 45 && !states.isPlaying) { // - (prev)
             prevFrame(fieldSVG, frames);
         }
-        else if (charCode == 43 && !states.isPlaying) { // +
+        else if (charCode == 43 && !states.isPlaying) { // + (next)
             nextFrame(fieldSVG, frames);
         }
-        else if (charCode == 110 && !states.isPlaying) { // n
+        else if (charCode == 97 && !states.isPlaying) { // a(dd)
             addFrameHere(fieldSVG, frames);
         }
-        else if (charCode == 114 && !states.isPlaying) { // r
+        else if (charCode == 114 && !states.isPlaying) { // r(emove)
             removeFrameHere(fieldSVG, frames);
         }
-        else if (charCode == 112 && !states.isPlaying) { // p
+        else if (charCode == 112 && !states.isPlaying) { // p(lay)
             playNext(fieldSVG, frames, 0);
         }
-        else if (charCode == 32 && !states.isPlaying) { // space
-            const player = frames[states.currentFrameId][states.controlledPlayer.id];
-
-            if(typeof player != "undefined"){
-                player.x = states.controlledPlayer.x;
-                player.y = states.controlledPlayer.y;
-                states.controlledPlayer.id = -1;
-                updatePlayers(fieldSVG, [states.controlledPlayer], filterClass="controlled")
-                updatePlayers(fieldSVG, frames[states.currentFrameId], filterClass="bot", transitionDuration=0)
-            }
+        else if (charCode == 115 && !states.isPlaying) { // s(ave)
+            savePlayer(frames)
+            selectPlayer(fieldSVG, frames, -1)
+            console.log("save")
         }
         else if(MESSAGE){ // all others
             console.log(charCode + ": " +String.fromCharCode(charCode));
         }
     });
+
+    $('#file-open').change(function(e){
+        readLevelFile(e);
+    });
+
+    $('#playButton').click(function(e){
+        if(!states.isPlaying){
+            playNext(fieldSVG, frames, 0);
+        }
+    });
+
+    $('#prevButton').click(function(e){
+        if(!states.isPlaying){
+            prevFrame(fieldSVG, frames);
+        }
+    });
+
+    $('#nextButton').click(function(e){
+        if(!states.isPlaying){
+            nextFrame(fieldSVG, frames);
+        }
+    });
+
+    $('#addButton').click(function(e){
+        if(!states.isPlaying){
+            addFrameHere(fieldSVG, frames);
+        }
+    });
+
+    $('#removeButton').click(function(e){
+        if(!states.isPlaying){
+            removeFrameHere(fieldSVG, frames);
+        }
+    });
+
+    $('#saveButton').click(function(e){
+        writeLevelFile(level);
+    });
+
+    $('.playerSelector').click(function(e){
+        const button = $(this);
+        button.focusout();
+        if(!states.isPlaying){
+            const selectedPlayer = button.val();
+            selectPlayer(fieldSVG, frames, selectedPlayer)
+        }
+    });
+}
+
+function savePlayer(frames){
+    const player = frames[states.currentFrameId][states.controlledPlayer.id];
+    if(typeof player != "undefined"){
+        player.x = states.controlledPlayer.x;
+        player.y = states.controlledPlayer.y;
+    }
+}
+
+function selectPlayer(fieldSVG, frames, playerId){
+    $('.playerSelector').removeClass("selectedPlayer");
+    $('.playerSelector[value='+playerId+']').addClass("selectedPlayer");
+
+    if(playerId >= 2 && playerId <= 7){
+        states.controlledPlayer = $.extend(true, {}, frames[states.currentFrameId][playerId]);
+        updatePlayers(fieldSVG, frames[states.currentFrameId])
+        updatePlayers(fieldSVG, [states.controlledPlayer], filterClass="controlled", transitionDuration=0)
+    }else if(playerId < 0){
+        states.controlledPlayer.id = -1;
+        updatePlayers(fieldSVG, [states.controlledPlayer], filterClass="controlled")
+        updatePlayers(fieldSVG, frames[states.currentFrameId], filterClass="bot", transitionDuration=0)
+    }
+    else{
+        console.log("error index in select player");
+    }
 }
 
 //
@@ -117,6 +195,7 @@ function prevFrame(fieldSVG, frames){
         states.currentFrameId = newFrame;
         updatePlayers(fieldSVG, frames[newFrame])
     }
+    updateCurrentFrameLabel(newFrame, frames.length);
 }
 
 //
@@ -126,6 +205,7 @@ function nextFrame(fieldSVG, frames){
         states.currentFrameId = newFrame;
         updatePlayers(fieldSVG, frames[newFrame])
     }
+    updateCurrentFrameLabel(newFrame, frames.length);
 }
 
 //
@@ -146,25 +226,36 @@ function removeFrameHere(fieldSVG, frames){
         states.currentFrameId = id;
         updatePlayers(fieldSVG, [states.controlledPlayer], filterClass="controlled")
         updatePlayers(fieldSVG, frames[id], filterClass="bot", transitionDuration=0)
+        updateCurrentFrameLabel(id, frames.length);
     }
 }
 
 //
 function playNext(fieldSVG, frames, frameId){
+    updateCurrentFrameLabel(frameId, frames.length);
     let promise = updatePlayers(fieldSVG, frames[frameId]);
     if(frameId == 0){
         states.isPlaying = true;
+        $('.roundButton').attr("disabled", true);
+
         // TODO play annimation 3, 2, 1
     }
     const newFrame = Math.min(frameId+1, frames.length-1);
     promise.then(function() {
-        if(newFrame > frameId)
+        if(newFrame > frameId){
             playNext(fieldSVG, frames, newFrame);
-        else {
+        }else {
+            updateCurrentFrameLabel(states.currentFrameId, frames.length);
             updatePlayers(fieldSVG, frames[states.currentFrameId])
             states.isPlaying = false;
+            $('.roundButton').attr("disabled", false);
         }
     });
+}
+
+//
+function updateCurrentFrameLabel(id, length){
+    $("#currentButton").text((id+1)+"/"+length)
 }
 
 //
@@ -231,4 +322,25 @@ function updatePlayers(fieldSVG, players, filterClass="bot", transitionDuration=
             .attr("y", function(p) {
                 return (controlled ? states.controlledPlayer.y : p.y) *TO_PIXEL_FACTOR});
     });
+}
+
+function writeLevelFile(level){
+    const fileName = "level_"+Date.now();
+    level.name = fileName;
+    const blob = new Blob([JSON.stringify(level)], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, fileName+".json");
+}
+
+function readLevelFile(e) {
+    const file = e.target.files[0];
+    if (!file || !file.name.endsWith(".json")) {
+        console.log("Not a json file")
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const contents = e.target.result;
+        init(JSON.parse(contents));
+    };
+    reader.readAsText(file);
 }
