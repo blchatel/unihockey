@@ -1,0 +1,63 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Unihockey</title>
+    <meta name="description" content="Description TODO">
+    <meta name="author" content="Bastien Chatelain">
+    <!--For smartphones-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="images/png" href="css/images/ball128.png" />
+    <!-- Import bootstrap default style and our style override, in that order -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css">
+    <link rel="stylesheet" href="css/unihockey.css?v=1.0">
+
+    <!--TODO Decide how to deal with IE-->
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <!-- Navigation Bar-->
+    <nav class="navbar navbar-light navbar-fixed-top bg-faded ">
+        <div>
+          <h2 class="white">
+              Unihockey
+              <!--TODO better title ? Ranking ?-->
+          </h2>
+      </div>
+    </nav>
+
+    <!----------------------------------------------->
+
+    <div class="container-fluid">
+
+        <!-- Main D3 Panels-->
+        <div id="mainRow" class="row">
+        </div>
+        <!----------------------------------------------->
+        <div id="controlRow" class="row">
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
+
+    <!-- Import D3-->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <!-- Import our js files-->
+    <script src="js/states.js"></script>
+    <script src="js/unihockey.js"></script>
+    <script>init(level1)</script>
+</body>
+
+</html>

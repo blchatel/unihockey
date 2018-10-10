@@ -1,0 +1,31 @@
+
+html, body, .container-fluid {
+    height:100%;
+    background-color: black;
+}
+nav{
+    left: 0;
+    width: 100%;
+    z-index: 1030;
+    background-color: black;
+}
+
+.container-fluid {
+    box-sizing: border-box;
+}
+
+#mainRow{
+    background-color: blue;
+    margin: 0;
+    height: 100%;
+    padding: 30px
+}
+
+svg {
+    background: #eee;
+    margin: 0 auto;
+}
+
+.hidden {
+    display: none !important;
+}
