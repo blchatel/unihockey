@@ -82,7 +82,7 @@ function init(level) {
     fieldG.append("text").attr("class", "controlled")
 
     // Key event pressed
-    $(document).off().keypress(function(event){
+    $(document).off("keypress").keypress(function(event){
         const charCode = event.which;
         if(charCode >= 52 && charCode <= 57 && !states.isPlaying){ // 4, 5, 6, 7, 8, 9
             selectPlayer(fieldSVG, frames, charCode - 50)
@@ -105,7 +105,6 @@ function init(level) {
         else if (charCode == 115 && !states.isPlaying) { // s(ave)
             savePlayer(frames)
             selectPlayer(fieldSVG, frames, -1)
-            console.log("save")
         }
         else if(MESSAGE){ // all others
             console.log(charCode + ": " +String.fromCharCode(charCode));
