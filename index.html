@@ -25,7 +25,11 @@
     <nav class="navbar navbar-light navbar-fixed-top bg-faded ">
         <div class="parametersRow">
             <div>
-                <h4 id="levelName" class="white">Level: default</h4>
+                <div class="btn-group mb-2" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-outline-success filledButton">Level:</button>
+                    <input id="filename" class="btn btn-outline-success inline left" type="text"/>
+                    <button type="button" class="btn btn-outline-success filledButton">.json</button>
+                </div>
             </div>
             <label id="openButton" for="file-open" class="btn btn-outline-success roundButton openButton"></label>
             <input id="file-open" class="roundButton" type="file"/>
@@ -91,9 +95,6 @@
 
         <!-- Main D3 Panels-->
         <div id="mainRow" class="row">
-        </div>
-        <!----------------------------------------------->
-        <div id="controlRow" class="row">
         </div>
     </div>
 
