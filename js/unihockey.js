@@ -30,8 +30,6 @@ function init(level) {
     // first clean actual content
     d3.select("#mainRow").html("");
 
-    // TODO remove all event before init ...
-
     // init the states global variable
     states.isPlaying = false;
     states.currentFrameId = 0;
@@ -40,7 +38,7 @@ function init(level) {
     // Get the frames
     const frames = level.frames;
     updateCurrentFrameLabel(0, frames.length);
-    $('#levelName').text("Level: "+level.name)
+    $('#filename').val(level.name);
 
     const fieldSVG = d3.select("#mainRow").append("svg")
         .attr("id", level.name)
@@ -84,7 +82,7 @@ function init(level) {
     fieldG.append("text").attr("class", "controlled")
 
     // Key event pressed
-    $(document).keypress(function(event){
+    $(document).off().keypress(function(event){
         const charCode = event.which;
         if(charCode >= 52 && charCode <= 57 && !states.isPlaying){ // 4, 5, 6, 7, 8, 9
             selectPlayer(fieldSVG, frames, charCode - 50)
@@ -114,45 +112,45 @@ function init(level) {
         }
     });
 
-    $('#file-open').change(function(e){
+    $('#file-open').off().change(function(e){
         readLevelFile(e);
     });
 
-    $('#playButton').click(function(e){
+    $('#playButton').off().click(function(e){
         if(!states.isPlaying){
             playNext(fieldSVG, frames, 0);
         }
     });
 
-    $('#prevButton').click(function(e){
+    $('#prevButton').off().click(function(e){
         if(!states.isPlaying){
             prevFrame(fieldSVG, frames);
         }
     });
 
-    $('#nextButton').click(function(e){
+    $('#nextButton').off().click(function(e){
         if(!states.isPlaying){
             nextFrame(fieldSVG, frames);
         }
     });
 
-    $('#addButton').click(function(e){
+    $('#addButton').off().click(function(e){
         if(!states.isPlaying){
             addFrameHere(fieldSVG, frames);
         }
     });
 
-    $('#removeButton').click(function(e){
+    $('#removeButton').off().click(function(e){
         if(!states.isPlaying){
             removeFrameHere(fieldSVG, frames);
         }
     });
 
-    $('#saveButton').click(function(e){
+    $('#saveButton').off().click("click", function(e){
         writeLevelFile(level);
     });
 
-    $('.playerSelector').click(function(e){
+    $('.playerSelector').off().click(function(e){
         const button = $(this);
         button.focusout();
         if(!states.isPlaying){
@@ -325,7 +323,7 @@ function updatePlayers(fieldSVG, players, filterClass="bot", transitionDuration=
 }
 
 function writeLevelFile(level){
-    const fileName = "level_"+Date.now();
+    const fileName = $("#filename").val();
     level.name = fileName;
     const blob = new Blob([JSON.stringify(level)], {type: "text/plain;charset=utf-8"});
     saveAs(blob, fileName+".json");
