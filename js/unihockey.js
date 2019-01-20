@@ -24,6 +24,10 @@ const states = {
     controlledPlayer: {id:-1, x: 0, y: 0, r: 0.5, team: "red", number: "0"}
 };
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 //
 function init(level) {
 
@@ -244,13 +248,16 @@ function playNext(fieldSVG, frames, frameId){
         states.isPlaying = true;
         $('.roundButton').attr("disabled", true);
         // TODO play annimation 3, 2, 1
-        
+        // display start panel
+        //await sleep(2000);
+        // hide start panel
     }
     const newFrame = Math.min(frameId+1, frames.length-1);
-    promise.then(function() {
+    promise.then(async function() {
         if(newFrame > frameId){
             playNext(fieldSVG, frames, newFrame);
         }else {
+            await sleep(2000);
             updateCurrentFrameLabel(states.currentFrameId, frames.length);
             updatePlayers(fieldSVG, frames[states.currentFrameId])
             states.isPlaying = false;
