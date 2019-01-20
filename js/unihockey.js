@@ -84,7 +84,7 @@ function init(level) {
     // Key event pressed
     $(document).off("keypress").keypress(function(event){
         const charCode = event.which;
-        if(charCode >= 52 && charCode <= 57 && !states.isPlaying){ // 4, 5, 6, 7, 8, 9
+        if(((charCode >= 52 && charCode <= 57) || charCode == 98) && !states.isPlaying){ // 4, 5, 6, 7, 8, 9, B
             selectPlayer(fieldSVG, frames, charCode - 50)
         }
         else if (charCode == 45 && !states.isPlaying) { // - (prev)
@@ -168,10 +168,14 @@ function savePlayer(frames){
 }
 
 function selectPlayer(fieldSVG, frames, playerId){
+
+    if(playerId == 48){
+        playerId = 8;
+    }
     $('.playerSelector').removeClass("selectedPlayer");
     $('.playerSelector[value='+playerId+']').addClass("selectedPlayer");
 
-    if(playerId >= 2 && playerId <= 7){
+    if(playerId >= 2 && playerId <= 8){
         states.controlledPlayer = $.extend(true, {}, frames[states.currentFrameId][playerId]);
         updatePlayers(fieldSVG, frames[states.currentFrameId])
         updatePlayers(fieldSVG, [states.controlledPlayer], filterClass="controlled", transitionDuration=0)

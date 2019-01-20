@@ -10,6 +10,7 @@ const defaultLevel = {
             {id:5, x: 7, y: 7, r: 0.5, team: "#28a745", number: "7"},
             {id:6, x: 9, y: 9, r: 0.5, team: "#28a745", number: "8"},
             {id:7, x: 2, y: 11, r: 0.5, team: "#28a745", number: "9"},
+            {id:8, x: 8, y: 13, r: 0.3, team: "#FF0000", number: ""},
         ],
     ]
 }
