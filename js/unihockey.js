@@ -83,7 +83,12 @@ function init(level) {
 
     // Key event pressed
     $(document).off("keypress").keypress(function(event){
+
+        if($('#filename').is(":focus")){
+            return;
+        }
         const charCode = event.which;
+
         if(((charCode >= 52 && charCode <= 57) || charCode == 98) && !states.isPlaying){ // 4, 5, 6, 7, 8, 9, B
             selectPlayer(fieldSVG, frames, charCode - 50)
         }
@@ -238,8 +243,8 @@ function playNext(fieldSVG, frames, frameId){
     if(frameId == 0){
         states.isPlaying = true;
         $('.roundButton').attr("disabled", true);
-
         // TODO play annimation 3, 2, 1
+        
     }
     const newFrame = Math.min(frameId+1, frames.length-1);
     promise.then(function() {
